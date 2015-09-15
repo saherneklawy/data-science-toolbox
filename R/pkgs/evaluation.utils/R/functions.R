@@ -1,3 +1,6 @@
+evaluation.utils.data_frame.sample <- NULL
+
+
 #' A function that takes a data source, and runs a function on a sample of the data
 #'
 #' A dummy function to test package creation
@@ -14,6 +17,8 @@ run_on_sample <- function(data_frame,
                           sample_ratio = 0.6,
                           seed = 12239) {
   set.seed(seed)
-  data_frame.sample = sample(data_frame, as.int(nrow(data_frame)*sample))
-  func(data_frame.sample)
+  if(is.null(evaluation.utils.data_frame.sample)) {
+    evaluation.utils.data_frame.sample <<- sample(data_frame, as.int(nrow(data_frame)*sample))
+  }
+  func(evaluation.utils.data_frame.sample)
 }
