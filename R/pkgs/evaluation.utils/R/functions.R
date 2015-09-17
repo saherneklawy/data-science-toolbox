@@ -28,7 +28,7 @@ run_on_sample <- function(data_frame,
 #'
 #' A dummy function to test package creation
 #' @param data_frame
-#' @param training_ratio the sample to take out of the data
+#' @param training_ratio the sample to take out of the data. If an integer is passed, this will be the number of samples taken
 #' @param seed the seed for the sample
 #' @keywords  partitioning data
 #' @export
@@ -39,7 +39,11 @@ split_data <- function(data_frame, training_ratio = 0.6, seed = 12239) {
   set.seed(seed)
   N = nrow(data_frame)
   data_frame$original_index = 1:N
-  indexes = sample(N, as.integer(N*training_ratio))
+  if(floor(training_ratio) == training_ratio) {
+    indexes = sample(N, training_ratio)
+  } else {
+    indexes = sample(N, as.integer(N*training_ratio))
+  }
   train = data_frame[ indexes, ]
   test = data_frame[ -indexes, ]
   list(train = train, test = test)
