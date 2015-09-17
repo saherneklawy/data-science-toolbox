@@ -48,3 +48,14 @@ split_data <- function(data_frame, training_ratio = 0.6, seed = 12239) {
   test = data_frame[ -indexes, ]
   list(train = train, test = test)
 }
+
+#' A function that removes constant features
+#'
+#' @param data_frame
+#' remove_zero_variance(data_frame)
+remove_zero_variance <- function(data_frame) {
+  col_ct = sapply(data_frame, function(x) length(unique(x)))
+  cat("Constant feature count:", length(col_ct[col_ct==1]))
+  data_frame = data_frame[, !names(data_frame) %in% names(col_ct[col_ct==1])]
+  data_frame
+}
