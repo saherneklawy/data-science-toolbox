@@ -55,3 +55,21 @@ remove_zero_variance <- function(data_frame) {
   data_frame = data_frame[, !names(data_frame) %in% names(col_ct[col_ct==1])]
   data_frame
 }
+
+#' A function that removes NAs from a dataframe
+#'
+#' @param df
+#' @param threshold the highest allowed percentage of NAs in a column, columns with more NAs than this threshold will be removed
+#' @param navals a vector containing all values to consider as NAs
+#' remove_zero_variance(data_frame)
+remove.na <- function(df, threshold = 10, navals = c(-1, "", "[]")) {
+  for (v in navals) {
+    df[df == v] = NA
+  }
+  na.percent.per.column = sapply(df, function(col) as.integer(length(col[is.na(col)])/(nrow(df)) * 100))
+  na.percent.threshold = threshold
+  df.no.na = df[, na.percent.per.column <= na.percent.threshold]
+  df.no.na = df.no.na[complete.cases(df.no.na), ]
+  stopifnot(count.na(df.no.na) == 0)
+  df.no.na
+}
