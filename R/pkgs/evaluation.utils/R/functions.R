@@ -93,3 +93,20 @@ remove.na <- function(df, threshold = 10, navals = c(-1, "", "[]")) {
   stopifnot(count.na(df.no.na) == 0)
   df.no.na
 }
+
+#' A function that fills missing values using a function on columns
+#'
+#' @param df
+#' @param fill_fn a function that takes a column and accepts `na.rm = T`
+#' @param navals a vector containing all values to consider as NAs
+#' @keywords  cleaning data
+#' @export
+#' @examples
+#' fill_missing(df, mean)
+fill_mising <- function(df, fill_fn = mean) {
+  do.call(cbind.data.frame, lapply(training.allnum, function(col) {
+    avg = mean(col, na.rm = T)
+    col[is.na(col)] = avg
+    col
+  }) )
+}
