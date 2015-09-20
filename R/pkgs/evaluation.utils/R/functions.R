@@ -26,7 +26,6 @@ run_on_sample <- function(data_frame,
 
 #' A function that splits the data to training and test
 #'
-#' A dummy function to test package creation
 #' @param data_frame
 #' @param training_ratio the sample to take out of the data. If an integer is passed, this will be the number of samples taken
 #' @param seed the seed for the sample
@@ -52,6 +51,9 @@ split_data <- function(data_frame, training_ratio = 0.6, seed = 12239) {
 #' A function that removes constant features
 #'
 #' @param data_frame
+#' @keywords  cleaning data
+#' @export
+#' @examples
 #' remove_zero_variance(data_frame)
 remove_zero_variance <- function(data_frame) {
   col_ct = sapply(data_frame, function(x) length(unique(x)))
@@ -63,6 +65,9 @@ remove_zero_variance <- function(data_frame) {
 #' A function that counts NAs in a dataframe
 #'
 #' @param df
+#' @keywords  cleaning data
+#' @export
+#' @examples
 #' count.na(df)
 count.na <- function(df) {
   length(df[is.na(df)])
@@ -73,6 +78,9 @@ count.na <- function(df) {
 #' @param df
 #' @param threshold the highest allowed percentage of NAs in a column, columns with more NAs than this threshold will be removed
 #' @param navals a vector containing all values to consider as NAs
+#' @keywords  cleaning data
+#' @export
+#' @examples
 #' remove.na(df)
 remove.na <- function(df, threshold = 10, navals = c(-1, "", "[]")) {
   for (v in navals) {
