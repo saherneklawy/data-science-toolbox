@@ -82,7 +82,7 @@ count.na <- function(df) {
 #' @export
 #' @examples
 #' remove.na(df)
-remove.na <- function(df, threshold = 10, navals = c(-1, "", "[]")) {
+remove.na <- function(df, threshold = 10) {
   for (v in navals) {
     df[df == v] = NA
   }
@@ -98,7 +98,6 @@ remove.na <- function(df, threshold = 10, navals = c(-1, "", "[]")) {
 #'
 #' @param df
 #' @param fill_fn a function that takes a column and accepts `na.rm = T`
-#' @param navals a vector containing all values to consider as NAs
 #' @keywords  cleaning data
 #' @export
 #' @examples
@@ -109,4 +108,23 @@ fill_mising <- function(df, fill_fn = mean) {
     col[is.na(col)] = avg
     col
   }) )
+}
+
+#' A function that plots ROC curve and returns the Area Under the Curve
+#'
+#' @param model
+#' @param df
+#' @keywords  performance
+#' @export
+#' @examples
+#' roc.auc(model, df)
+roc.auc <- function(model, df) {
+  pred_col = predict(model, data.matrix(df))
+  pred = prediction(pred_col, df$target)
+  perf = performance(pred, "tpr", "fpr")
+  par(mar=c(5,5,2,2),xaxs = "i",yaxs = "i",cex.axis=1.3,cex.lab=1.4)
+  plot(perf,col="black",lty=3, lwd=3)
+  auc <- performance(pred,"auc")
+  auc <- unlist(slot(auc, "y.values"))
+  auc
 }
