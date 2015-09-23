@@ -104,7 +104,7 @@ remove.na <- function(df, threshold = 10) {
 #' fill_missing(df, mean)
 fill_mising <- function(df, fill_fn = mean) {
   do.call(cbind.data.frame, lapply(df, function(col) {
-    avg = mean(col, na.rm = T)
+    avg = fill_fn(col, na.rm = T)
     col[is.na(col)] = avg
     col
   }) )
